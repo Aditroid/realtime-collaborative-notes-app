@@ -11,11 +11,19 @@ const server = http.createServer(app);
 const io = socketIo(server, {
   cors: {
     origin: process.env.NODE_ENV === 'production' 
-      ? 'https://your-vercel-app.vercel.app' 
+      ? 'https://realtime-collaborative-notes-app.vercel.app' 
       : 'http://localhost:3000',
     methods: ["GET", "POST"]
   }
 });
+// const io = socketIo(server, {
+//   cors: {
+//     origin: process.env.NODE_ENV === 'production' 
+//       ? 'https://your-vercel-app.vercel.app' 
+//       : 'http://localhost:3000',
+//     methods: ["GET", "POST"]
+//   }
+// });
 
 // Middleware
 app.use(cors());
