@@ -10,19 +10,24 @@
       "src": "client/package.json",
       "use": "@vercel/static-build",
       "config": { 
-        "distDir": "dist",
-        "env": {
-          "NODE_ENV": "production"
-        }
+        "distDir": "dist"
       }
     }
   ],
   "routes": [
-    { "src": "/api/(.*)", "dest": "https://realtime-collaborative-notes-app.onrender.com/api/$1" },
-    { "src": "/socket.io/(.*)", "dest": "https://realtime-collaborative-notes-app.onrender.com/socket.io/$1" },
-    { "src": "/(.*)", "dest": "/index.html" }
-  ],
-  "rewrites": [
-    { "source": "/(.*)", "destination": "/" }
+    { 
+      "src": "/api/(.*)", 
+      "dest": "https://realtime-collaborative-notes-app.onrender.com/api/$1",
+      "headers": { "Access-Control-Allow-Origin": "*" }
+    },
+    { 
+      "src": "/socket.io/(.*)", 
+      "dest": "https://realtime-collaborative-notes-app.onrender.com/socket.io/$1",
+      "headers": { "Access-Control-Allow-Origin": "*" }
+    },
+    { 
+      "src": "^/(.*)", 
+      "dest": "/index.html"
+    }
   ]
 }
