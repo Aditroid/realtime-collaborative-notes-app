@@ -1,0 +1,28 @@
+{
+  "build": {
+    "env": {
+      "NODE_ENV": "production",
+      "VITE_API_URL": "https://realtime-collaborative-notes-app.onrender.com"
+    }
+  },
+  "builds": [
+    {
+      "src": "client/package.json",
+      "use": "@vercel/static-build",
+      "config": { 
+        "distDir": "dist",
+        "env": {
+          "NODE_ENV": "production"
+        }
+      }
+    }
+  ],
+  "routes": [
+    { "src": "/api/(.*)", "dest": "https://realtime-collaborative-notes-app.onrender.com/api/$1" },
+    { "src": "/socket.io/(.*)", "dest": "https://realtime-collaborative-notes-app.onrender.com/socket.io/$1" },
+    { "src": "/(.*)", "dest": "/index.html" }
+  ],
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/" }
+  ]
+}

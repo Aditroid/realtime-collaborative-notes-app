@@ -3,6 +3,7 @@ import react from '@vitejs/plugin-react';
 import tailwindcss from '@tailwindcss/vite';
 
 export default defineConfig({
+  base: '/',
   plugins: [
     react(),
     tailwindcss(),
@@ -11,14 +12,20 @@ export default defineConfig({
     port: 3000,
     proxy: {
       '/api': {
-        target: 'http://localhost:5000',
+        target: 'https://realtime-collaborative-notes-app.onrender.com',
         changeOrigin: true,
-        secure: false,
+        secure: true,
       },
+      '/socket.io': {
+        target: 'https://realtime-collaborative-notes-app.onrender.com',
+        ws: true,
+        changeOrigin: true,
+        secure: true,
+      }
     },
   },
   define: {
-    'import.meta.env.VITE_API_URL': JSON.stringify(process.env.VITE_API_URL || 'http://localhost:5000'),
+    'import.meta.env.VITE_API_URL': JSON.stringify(process.env.VITE_API_URL || 'https://realtime-collaborative-notes-app.onrender.com'),
   },
   esbuild: {
     loader: 'jsx',
@@ -27,5 +34,9 @@ export default defineConfig({
   },
   resolve: {
     extensions: ['.js', '.jsx', '.json'],
+  },
+  build: {
+    outDir: 'dist',
+    assetsDir: 'assets',
   },
 });
