@@ -1,10 +1,4 @@
 {
-  "build": {
-    "env": {
-      "NODE_ENV": "production",
-      "VITE_API_URL": "https://realtime-collaborative-notes-app.onrender.com"
-    }
-  },
   "builds": [
     {
       "src": "client/package.json",
@@ -15,19 +9,40 @@
     }
   ],
   "routes": [
-    { 
-      "src": "/api/(.*)", 
+    {
+      "src": "/api/(.*)",
       "dest": "https://realtime-collaborative-notes-app.onrender.com/api/$1",
-      "headers": { "Access-Control-Allow-Origin": "*" }
+      "headers": {
+        "Access-Control-Allow-Origin": "https://adityabora-realtime-notes-app.vercel.app",
+        "Access-Control-Allow-Methods": "GET,POST,PUT,OPTIONS",
+        "Access-Control-Allow-Headers": "Content-Type, Authorization"
+      }
     },
-    { 
-      "src": "/socket.io/(.*)", 
+    {
+      "src": "/socket.io/(.*)",
       "dest": "https://realtime-collaborative-notes-app.onrender.com/socket.io/$1",
-      "headers": { "Access-Control-Allow-Origin": "*" }
+      "headers": {
+        "Access-Control-Allow-Origin": "https://adityabora-realtime-notes-app.vercel.app"
+      }
     },
-    { 
-      "src": "^/(.*)", 
+    {
+      "src": "/_next/static/(.*)",
+      "dest": "/_next/static/$1"
+    },
+    {
+      "src": "/static/(.*)",
+      "dest": "/static/$1"
+    },
+    {
+      "src": "/favicon.ico",
+      "dest": "/favicon.ico"
+    },
+    {
+      "src": "/(.*)",
       "dest": "/index.html"
     }
+  ],
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/index.html" }
   ]
 }
