@@ -10,19 +10,19 @@ export default defineConfig({
   ],
   server: {
     port: 3000,
-    proxy: {
+    proxy: process.env.NODE_ENV === 'development' ? {
       '/api': {
-        target: 'https://realtime-collaborative-notes-app.onrender.com',
+        target: 'http://localhost:5000',
         changeOrigin: true,
-        secure: true,
+        secure: false,
       },
       '/socket.io': {
-        target: 'https://realtime-collaborative-notes-app.onrender.com',
+        target: 'http://localhost:5000',
         ws: true,
         changeOrigin: true,
-        secure: true,
+        secure: false,
       }
-    },
+    } : undefined,
   },
   define: {
     'import.meta.env.VITE_API_URL': JSON.stringify(

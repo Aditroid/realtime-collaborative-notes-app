@@ -19,25 +19,11 @@ const io = socketIo(server, {
   }
 });
 
-// CORS Configuration
-const allowedOrigins = [
-  'http://localhost:3000',
-  'https://adityabora-realtime-notes-app.vercel.app'
-];
-
-// CORS Middleware
+// CORS Configuration - Temporarily allowing all origins for testing
 app.use(cors({
-  origin: function (origin, callback) {
-    // Allow requests with no origin (like mobile apps or curl requests)
-    if (!origin) return callback(null, true);
-    
-    if (allowedOrigins.indexOf(origin) === -1) {
-      const msg = 'The CORS policy for this site does not allow access from the specified Origin.';
-      return callback(new Error(msg), false);
-    }
-    return callback(null, true);
-  },
-  credentials: true
+  origin: '*',
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
 }));
 app.use(express.json());
 
@@ -78,13 +64,26 @@ app.post('/api/notes', async (req, res) => {
 
 app.get('/api/notes/:id', async (req, res) => {
   try {
+    console.log('Fetching note with ID:', req.params.id);
+    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+      console.log('Invalid note ID format');
+      return res.status(400).json({ error: 'Invalid note ID format' });
+    }
+    
     const note = await Note.findById(req.params.id);
     if (!note) {
+      console.log('Note not found in database');
       return res.status(404).json({ error: 'Note not found' });
     }
+    
+    console.log('Successfully fetched note:', note._id);
     res.json(note);
   } catch (error) {
-    res.status(500).json({ error: 'Failed to fetch note' });
+    console.error('Error fetching note:', error);
+    res.status(500).json({ 
+      error: 'Failed to fetch note',
+      details: process.env.NODE_ENV === 'development' ? error.message : undefined
+    });
   }
 });
 

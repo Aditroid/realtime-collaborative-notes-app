@@ -36,16 +36,48 @@ const NoteEditor = () => {
     if (!username) return;
 
     const fetchNote = async () => {
+      setIsLoading(true);
+      setError('');
       try {
-        const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/notes/${noteId}`);
+        const apiUrl = `${import.meta.env.VITE_API_URL}/api/notes/${noteId}`;
+        console.log('Fetching note from:', apiUrl);
+        
+        const response = await axios.get(apiUrl, {
+          headers: {
+            'Content-Type': 'application/json',
+            'Cache-Control': 'no-cache'
+          },
+          withCredentials: true,
+          timeout: 10000 // 10 second timeout
+        });
+        
+        console.log('Note fetched successfully:', response.data);
         setNote({
           title: response.data.title,
           content: response.data.content
         });
         setLastSaved(new Date(response.data.updatedAt).toLocaleTimeString());
       } catch (err) {
-        console.error('Error fetching note:', err);
-        setError('Failed to load note. It may have been deleted or you may not have permission.');
+        console.error('Error fetching note:', {
+          message: err.message,
+          response: err.response?.data,
+          status: err.response?.status,
+          config: {
+            url: err.config?.url,
+            method: err.config?.method,
+            headers: err.config?.headers
+          }
+        });
+        
+        if (err.response?.status === 404) {
+          setError('Note not found. It may have been deleted.');
+        } else if (err.response?.status === 400) {
+          setError('Invalid note ID format.');
+        } else if (err.code === 'ECONNABORTED') {
+          setError('Request timed out. Please check your connection and try again.');
+        } else {
+          setError('Failed to load note. Please try again later.');
+        }
       } finally {
         setIsLoading(false);
       }
