@@ -46,8 +46,8 @@ A full-stack real-time collaborative note-taking application that allows multipl
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/Aditroid/goforit.git
-   cd goforit
+   git clone https://github.com/Aditroid/realtime-collaborative-notes-app.git
+   cd realtime-collaborative-notes-app
    ```
 
 2. **Install backend dependencies**
@@ -161,6 +161,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 📧 Contact
 
-Your Name - your.email@example.com
+Your Name - bora.aditya786@gmail.com
 
-Project Link: [https://github.com/yourusername/collaborative-notes](https://github.com/yourusername/collaborative-notes)
+Project Link: [https://github.com/Aditroid/realtime-collaborative-notes-app](https://github.com/Aditroid/realtime-collaborative-notes-app)
