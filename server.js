@@ -10,26 +10,19 @@ const app = express();
 const server = http.createServer(app);
 const io = socketIo(server, {
   cors: {
-    origin: process.env.NODE_ENV === 'production' 
-      ? 'https://adityabora-realtime-notes-app.vercel.app' 
-      : 'http://localhost:3000',
-    methods: ["GET", "POST"]
+    origin: [
+      'http://localhost:3000',
+      'https://adityabora-realtime-notes-app.vercel.app'
+    ],
+    methods: ["GET", "POST"],
+    credentials: true
   }
 });
-// const io = socketIo(server, {
-//   cors: {
-//     origin: process.env.NODE_ENV === 'production' 
-//       ? 'https://your-vercel-app.vercel.app' 
-//       : 'http://localhost:3000',
-//     methods: ["GET", "POST"]
-//   }
-// });
 
 // CORS Configuration
 const allowedOrigins = [
   'http://localhost:3000',
-  'https://adityabora-realtime-notes-app.vercel.app',
-  'https://realtime-collaborative-notes-app.vercel.app'
+  'https://adityabora-realtime-notes-app.vercel.app'
 ];
 
 // CORS Middleware
