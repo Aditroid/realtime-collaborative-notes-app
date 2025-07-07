@@ -47,7 +47,6 @@ const NoteEditor = () => {
             'Content-Type': 'application/json',
             'Cache-Control': 'no-cache'
           },
-          withCredentials: true,
           timeout: 10000 // 10 second timeout
         });
         
