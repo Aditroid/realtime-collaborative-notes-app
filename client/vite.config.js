@@ -25,7 +25,11 @@ export default defineConfig({
     },
   },
   define: {
-    'import.meta.env.VITE_API_URL': JSON.stringify(process.env.VITE_API_URL || 'https://realtime-collaborative-notes-app.onrender.com'),
+    'import.meta.env.VITE_API_URL': JSON.stringify(
+      process.env.NODE_ENV === 'production' 
+        ? 'https://realtime-collaborative-notes-app.onrender.com' 
+        : 'http://localhost:5000'
+    ),
   },
   esbuild: {
     loader: 'jsx',
